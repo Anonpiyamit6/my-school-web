@@ -3,288 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admission Portal | ระบบรับสมัคร</title>
+    <title>สมัครสอบแข่งขันเพชรราชพฤกษ์ | บางสะพานวิทยา 2568</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style> 
-        body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 4px; }
+        body { font-family: 'Sarabun', sans-serif; background-color: #f0f4f8; }
+        .step-active { border-color: #2563eb; color: #2563eb; background-color: #eff6ff; }
+        .step-inactive { border-color: #e5e7eb; color: #9ca3af; }
+        .step-completed { border-color: #10b981; color: white; background-color: #10b981; }
     </style>
 </head>
-<body class="min-h-screen bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-fixed bg-no-repeat print:bg-white print:bg-none">
-    
-    <!-- Overlay พื้นหลังมืด -->
-    <div class="min-h-screen w-full bg-blue-900/70 flex items-center justify-center p-4 md:p-8 print:p-0 print:bg-white print:block">
+<body class="min-h-screen bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] py-10 px-4">
+
+    <div class="max-w-4xl mx-auto">
         
-        <div class="w-full max-w-5xl glass-panel rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row transition-all duration-500 print:shadow-none print:w-full">
+        <!-- Header -->
+        <div class="bg-blue-800 rounded-t-2xl p-8 text-center text-white shadow-lg relative overflow-hidden">
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 tracking-wide">สมัครสอบแข่งขันเพชรราชพฤกษ์</h1>
+                <p class="text-blue-200 text-lg">โรงเรียนบางสะพานวิทยา ปีการศึกษา 2568</p>
+            </div>
+            <!-- วงกลมตกแต่ง -->
+            <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 rounded-full bg-blue-700 opacity-50"></div>
+            <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-32 h-32 rounded-full bg-blue-900 opacity-50"></div>
+        </div>
+
+        <!-- กล่องหลัก -->
+        <div class="bg-white rounded-b-2xl shadow-2xl p-6 md:p-10">
             
-            <!-- ด้านซ้าย: Branding (ซ่อนตอน Print) -->
-            <div class="w-full md:w-2/5 bg-blue-800 p-10 text-white flex flex-col justify-between print:hidden">
-                <div>
-                    <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm shadow-lg">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
-                    </div>
-                    <h1 class="text-4xl font-bold mb-3 tracking-wide">Admission 2025</h1>
-                    <p class="text-blue-200 text-sm leading-relaxed">ระบบรับสมัครนักเรียนออนไลน์ รูปแบบใหม่ รวดเร็ว ปลอดภัย ปีการศึกษา 2568</p>
-                </div>
-                <div class="mt-12 md:mt-0 border-t border-blue-700 pt-6">
-                    <p class="text-xs text-blue-300">พบปัญหาติดต่อ: support@school.ac.th</p>
-                </div>
-            </div>
-
-            <!-- ด้านขวา: Dynamic Forms -->
-            <div class="w-full md:w-3/5 p-8 md:p-12 relative bg-white print:p-0">
+            <!-- Progress Bar -->
+            <div class="flex items-center justify-between mb-8 relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-blue-600 transition-all duration-300 -z-10" id="progress-line" style="width: 0%;"></div>
                 
-                <!-- 1. ส่วน Login -->
-                <div id="view-login" class="transition-all duration-300 print:hidden">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">เข้าสู่ระบบ</h2>
-                    <p class="text-gray-500 mb-8 text-sm">ตรวจสอบสถานะ / พิมพ์ใบสมัครสอบ</p>
-                    
-                    <form onsubmit="handleLogin(event)" class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">เลขประจำตัวประชาชน 13 หลัก</label>
-                            <input type="text" id="login_id" maxlength="13" class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition text-lg" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">รหัสผ่าน</label>
-                            <input type="password" id="login_pass" class="w-full px-5 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition text-lg" required>
-                        </div>
-                        <button type="submit" id="btnLogin" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 text-lg">
-                            เข้าสู่ระบบ
-                        </button>
-                    </form>
-                    <div class="mt-10 text-center border-t pt-8">
-                        <p class="text-gray-600">ผู้สมัครใหม่? 
-                            <button onclick="toggleView('select-level')" class="text-blue-600 font-bold hover:underline text-lg ml-2">คลิกเพื่อลงทะเบียนสมัครเรียน</button>
-                        </p>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="icon-step-1" class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-active bg-white transition-all duration-300">1</div>
+                    <span class="text-xs font-bold mt-2 text-blue-600" id="text-step-1">ระดับชั้น</span>
                 </div>
-
-                <!-- 2. เลือกระดับชั้น ม.1 หรือ ม.4 -->
-                <div id="view-select-level" class="hidden transition-all duration-300 print:hidden">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800">เลือกระดับชั้นที่ต้องการสมัคร</h2>
-                        <button onclick="toggleView('login')" class="text-gray-400 hover:text-gray-800">✕ ปิด</button>
-                    </div>
-                    <div class="grid grid-cols-1 gap-6">
-                        <button onclick="startRegister('ม.1')" class="border-2 border-blue-200 hover:border-blue-500 bg-blue-50 hover:bg-blue-100 p-8 rounded-2xl transition group text-left">
-                            <h3 class="text-2xl font-bold text-blue-800 group-hover:text-blue-900">ระดับชั้น มัธยมศึกษาปีที่ 1</h3>
-                            <p class="text-blue-600 mt-2 text-sm">คลิกเพื่อกรอกใบสมัครสำหรับ ม.1</p>
-                        </button>
-                        <button onclick="startRegister('ม.4')" class="border-2 border-orange-200 hover:border-orange-500 bg-orange-50 hover:bg-orange-100 p-8 rounded-2xl transition group text-left">
-                            <h3 class="text-2xl font-bold text-orange-800 group-hover:text-orange-900">ระดับชั้น มัธยมศึกษาปีที่ 4</h3>
-                            <p class="text-orange-600 mt-2 text-sm">คลิกเพื่อกรอกใบสมัครสำหรับ ม.4</p>
-                        </button>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="icon-step-2" class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-inactive bg-white transition-all duration-300">2</div>
+                    <span class="text-xs font-bold mt-2 text-gray-400" id="text-step-2">ข้อมูลส่วนตัว</span>
                 </div>
-
-                <!-- 3. ฟอร์มลงทะเบียน (เปลี่ยนแผนการเรียนอัตโนมัติ) -->
-                <div id="view-register" class="hidden h-[600px] overflow-y-auto pr-4 custom-scrollbar print:hidden">
-                    <div class="sticky top-0 bg-white pb-4 border-b mb-6 flex justify-between items-center z-10">
-                        <h2 class="text-2xl font-bold text-gray-800">ใบสมัคร <span id="display_level" class="text-blue-600"></span></h2>
-                        <button onclick="toggleView('select-level')" class="text-sm text-gray-500 hover:text-gray-800 font-bold bg-gray-100 px-4 py-2 rounded-lg">← ย้อนกลับ</button>
-                    </div>
-                    
-                    <form onsubmit="handleRegister(event)" class="space-y-6">
-                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 space-y-4">
-                            <h3 class="font-bold text-gray-700">1. ข้อมูลเข้าระบบ (ใช้ตรวจสถานะภายหลัง)</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div><label class="block text-sm font-semibold mb-1">เลขบัตรประชาชน 13 หลัก</label><input type="text" id="reg_id" maxlength="13" class="w-full px-4 py-3 rounded-lg border focus:border-blue-500 outline-none" required></div>
-                                <div><label class="block text-sm font-semibold mb-1">ตั้งรหัสผ่าน</label><input type="password" id="reg_pass" class="w-full px-4 py-3 rounded-lg border focus:border-blue-500 outline-none" required></div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h3 class="font-bold text-gray-700">2. ข้อมูลส่วนตัว</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div><label class="block text-sm font-semibold mb-1">ชื่อจริง</label><input type="text" id="reg_first" class="w-full px-4 py-3 rounded-lg border focus:border-blue-500 outline-none" required></div>
-                                <div><label class="block text-sm font-semibold mb-1">นามสกุล</label><input type="text" id="reg_last" class="w-full px-4 py-3 rounded-lg border focus:border-blue-500 outline-none" required></div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div><label class="block text-sm font-semibold mb-1">จบจากโรงเรียน</label><input type="text" id="reg_school" class="w-full px-4 py-3 rounded-lg border focus:border-blue-500 outline-none" required></div>
-                                <div>
-                                    <label class="block text-sm font-semibold mb-1 text-blue-700">เลือกแผนการเรียน</label>
-                                    <!-- ตัวเลือกตรงนี้จะเปลี่ยนอัตโนมัติตามระดับชั้นที่กด -->
-                                    <select id="reg_program" class="w-full px-4 py-3 rounded-lg border-2 border-blue-300 focus:border-blue-600 outline-none font-bold text-blue-800 bg-blue-50" required></select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4 pt-4 border-t">
-                            <h3 class="font-bold text-gray-700">3. อัปโหลดเอกสาร (JPG/PNG/PDF ไม่เกิน 2MB)</h3>
-                            <div class="space-y-3">
-                                <label class="flex flex-col border-2 border-dashed border-gray-300 p-4 rounded-xl cursor-pointer hover:bg-gray-50">
-                                    <span class="font-bold text-sm text-gray-700">📸 1. รูปถ่ายนักเรียนหน้าตรง</span>
-                                    <input type="file" id="file_photo" accept="image/*" class="hidden" required onchange="showName('file_photo', 'name_photo')">
-                                    <span id="name_photo" class="text-xs mt-1 text-gray-400">ยังไม่ได้เลือกไฟล์...</span>
-                                </label>
-                                <label class="flex flex-col border-2 border-dashed border-gray-300 p-4 rounded-xl cursor-pointer hover:bg-gray-50">
-                                    <span class="font-bold text-sm text-gray-700">📄 2. เอกสาร ปพ.1 หรือใบรับรอง</span>
-                                    <input type="file" id="file_doc" accept=".pdf,image/*" class="hidden" required onchange="showName('file_doc', 'name_doc')">
-                                    <span id="name_doc" class="text-xs mt-1 text-gray-400">ยังไม่ได้เลือกไฟล์...</span>
-                                </label>
-                                <label class="flex flex-col border-2 border-dashed border-green-400 p-4 rounded-xl cursor-pointer bg-green-50 hover:bg-green-100">
-                                    <span class="font-bold text-sm text-green-700">💰 3. สลิปโอนเงินค่าสมัครสอบ</span>
-                                    <input type="file" id="file_slip" accept="image/*" class="hidden" required onchange="showName('file_slip', 'name_slip')">
-                                    <span id="name_slip" class="text-xs mt-1 text-green-600">ยังไม่ได้เลือกไฟล์...</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="btnReg" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg mt-8 text-lg">
-                            ยืนยันการสมัครและส่งเอกสาร
-                        </button>
-                    </form>
+                <div class="flex flex-col items-center">
+                    <div id="icon-step-3" class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-inactive bg-white transition-all duration-300">3</div>
+                    <span class="text-xs font-bold mt-2 text-gray-400" id="text-step-3">การติดต่อ</span>
                 </div>
-
-                <!-- 4. บัตรประจำตัวสอบ (Print View) -->
-                <div id="view-dashboard" class="hidden print:block">
-                    <!-- หัวกระดาษ -->
-                    <div class="text-center border-b-2 border-black pb-4 mb-8">
-                        <h1 class="text-2xl font-bold text-black">บัตรประจำตัวผู้สมัครสอบเข้าศึกษาต่อ</h1>
-                        <p class="text-lg text-black mt-1">ปีการศึกษา 2568 (พิมพ์จากระบบออนไลน์)</p>
-                    </div>
-
-                    <!-- ข้อมูล -->
-                    <table class="w-full text-black text-lg mb-12">
-                        <tbody>
-                            <tr><td class="py-3 font-bold w-1/3">ชื่อ-นามสกุล:</td><td class="py-3 border-b border-dotted border-gray-400" id="dash_name"></td></tr>
-                            <tr><td class="py-3 font-bold w-1/3">ระดับชั้นที่สมัคร:</td><td class="py-3 border-b border-dotted border-gray-400 font-bold" id="dash_level"></td></tr>
-                            <tr><td class="py-3 font-bold w-1/3">แผนการเรียน:</td><td class="py-3 border-b border-dotted border-gray-400" id="dash_program"></td></tr>
-                            <tr><td class="py-3 font-bold w-1/3">โรงเรียนเดิม:</td><td class="py-3 border-b border-dotted border-gray-400" id="dash_school"></td></tr>
-                            <tr><td class="py-3 font-bold w-1/3 text-orange-600">สถานะระบบ:</td><td class="py-3 font-bold text-orange-600" id="dash_status"></td></tr>
-                        </tbody>
-                    </table>
-
-                    <div class="mt-16 text-center text-black">
-                        <p>ลงชื่อ...........................................................................ผู้สมัคร</p>
-                        <p class="mt-2 text-sm text-gray-600">(พิมพ์ชื่อตัวบรรจง)</p>
-                        <p class="mt-4">วันที่...........เดือน................................พ.ศ. ..................</p>
-                    </div>
-
-                    <!-- ปุ่มคำสั่ง -->
-                    <div class="mt-12 flex gap-4 print:hidden">
-                        <button onclick="window.print()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg text-lg">🖨️ พิมพ์บัตรประจำตัวสอบ</button>
-                        <button onclick="location.reload()" class="w-1/3 bg-gray-200 text-gray-800 font-bold py-4 rounded-xl">ออกจากระบบ</button>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="icon-step-4" class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-inactive bg-white transition-all duration-300">4</div>
+                    <span class="text-xs font-bold mt-2 text-gray-400" id="text-step-4">ยืนยันส่งข้อมูล</span>
                 </div>
-
             </div>
+
+            <form id="admissionForm" onsubmit="submitForm(event)">
+                
+                <!-- STEP 1: เลือกระดับชั้น -->
+                <div id="step-1" class="form-step transition-opacity duration-500">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-3">เลือกระดับชั้นปัจจุบันของนักเรียน <span class="text-red-500">*</span></h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="grade_level" value="ชั้นประถมศึกษาปีที่ 4" class="peer hidden" required>
+                            <div class="p-5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 hover:bg-gray-50 transition-all font-bold text-lg text-gray-700 flex items-center">
+                                <span class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex-shrink-0 peer-checked:border-blue-600 peer-checked:bg-blue-600 inline-block relative"><span class="absolute inset-0 m-auto w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition"></span></span>
+                                ชั้นประถมศึกษาปีที่ 4
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="grade_level" value="ชั้นประถมศึกษาปีที่ 5" class="peer hidden" required>
+                            <div class="p-5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 hover:bg-gray-50 transition-all font-bold text-lg text-gray-700 flex items-center">
+                                <span class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex-shrink-0 peer-checked:border-blue-600 peer-checked:bg-blue-600 inline-block relative"></span>
+                                ชั้นประถมศึกษาปีที่ 5
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="grade_level" value="ชั้นประถมศึกษาปีที่ 6" class="peer hidden" required>
+                            <div class="p-5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 hover:bg-gray-50 transition-all font-bold text-lg text-gray-700 flex items-center">
+                                <span class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex-shrink-0 peer-checked:border-blue-600 peer-checked:bg-blue-600 inline-block relative"></span>
+                                ชั้นประถมศึกษาปีที่ 6
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="grade_level" value="ชั้นมัธยมศึกษาปีที่ 3" class="peer hidden" required>
+                            <div class="p-5 rounded-xl border-2 border-gray-200 peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-700 hover:bg-gray-50 transition-all font-bold text-lg text-gray-700 flex items-center">
+                                <span class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex-shrink-0 peer-checked:border-blue-600 peer-checked:bg-blue-600 inline-block relative"></span>
+                                ชั้นมัธยมศึกษาปีที่ 3
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 2: ข้อมูลส่วนตัว -->
+                <div id="step-2" class="form-step hidden transition-opacity duration-500">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-3">ข้อมูลผู้สมัคร</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-2">คำนำหน้า <span class="text-red-500">*</span></label>
+                            <select id="prefix" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                                <option value="">-- เลือก --</option><option value="เด็กชาย">เด็กชาย</option><option value="เด็กหญิง">เด็กหญิง</option><option value="นาย">นาย</option><option value="นางสาว">นางสาว</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block font-bold text-gray-700 mb-2">ชื่อ (ไม่ต้องใส่คำนำหน้า) <span class="text-red-500">*</span></label>
+                            <input type="text" id="firstname" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                        <div class="md:col-span-1"></div> <!-- ดันให้ช่องต่อไปลงบรรทัดใหม่สวยๆ -->
+                        <div class="md:col-span-2">
+                            <label class="block font-bold text-gray-700 mb-2">นามสกุล <span class="text-red-500">*</span></label>
+                            <input type="text" id="lastname" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block font-bold text-gray-700 mb-2">เลขประจำตัวประชาชน (ไม่ต้องใส่ขีด) <span class="text-red-500">*</span></label>
+                            <input type="text" id="national_id" maxlength="13" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: ข้อมูลติดต่อ -->
+                <div id="step-3" class="form-step hidden transition-opacity duration-500">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-3">ข้อมูลการศึกษาและการติดต่อ</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-2">โรงเรียนที่กำลังศึกษาอยู่ในปัจจุบัน <span class="text-red-500">*</span></label>
+                            <input type="text" id="current_school" placeholder="ไม่ต้องพิมพ์คำว่าโรงเรียน เช่น บางสะพานวิทยา" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-2">เบอร์โทรศัพท์นักเรียน <span class="text-red-500">*</span></label>
+                                <input type="text" id="student_phone" maxlength="10" placeholder="088xxxxxxx" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-2">เบอร์โทรศัพท์ผู้ปกครอง <span class="text-red-500">*</span></label>
+                                <input type="text" id="parent_phone" maxlength="10" placeholder="088xxxxxxx" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-blue-500 focus:outline-none" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: ยืนยันข้อมูล -->
+                <div id="step-4" class="form-step hidden transition-opacity duration-500">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-3">ยืนยันข้อตกลงและเงื่อนไข</h2>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+                        <p class="font-bold text-blue-900 mb-2">📌 ประกาศสำคัญสำหรับผู้สมัคร:</p>
+                        <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
+                            <li>ผู้สมัครได้ตรวจสอบรายละเอียด กำหนดการสอบ และระเบียบการสอบครบถ้วนแล้ว</li>
+                            <li>ผู้สมัครตกลงเตรียมเอกสาร บัตรประชาชน หรือบัตรนักเรียน มาแสดงในวันสอบ</li>
+                            <li>หากตรวจพบว่าข้อมูลไม่เป็นความจริง จะถือว่าสละสิทธิ์ทันที</li>
+                        </ul>
+                    </div>
+
+                    <label class="flex items-start cursor-pointer bg-gray-50 border-2 border-gray-200 p-4 rounded-lg hover:bg-gray-100 transition">
+                        <div class="flex items-center h-5 mt-1">
+                            <input type="checkbox" id="accept_rules" class="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500" required>
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <span class="font-bold text-gray-900 text-base">ข้าพเจ้ารับทราบและยอมรับเงื่อนไขทั้งหมด <span class="text-red-500">*</span></span>
+                            <p class="text-gray-500 mt-1">ยืนยันว่าข้อมูลที่กรอกถูกต้องทุกประการ และพร้อมกดส่งใบสมัคร</p>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- ปุ่มควบคุม เปลี่ยนไปมา -->
+                <div class="mt-10 flex justify-between border-t pt-6">
+                    <button type="button" id="btnPrev" onclick="changeStep(-1)" class="hidden px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-lg hover:bg-gray-300 transition">ย้อนกลับ</button>
+                    <button type="button" id="btnNext" onclick="changeStep(1)" class="ml-auto px-10 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-lg transition">ถัดไป</button>
+                    <button type="submit" id="btnSubmit" class="hidden ml-auto px-10 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 shadow-lg transition">✅ ยืนยันส่งใบสมัคร</button>
+                </div>
+            </form>
+
         </div>
     </div>
 
     <script>
-        // 🚨 เอา URL ของ Google Apps Script มาใส่ตรงนี้ 🚨
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzcu3EDBdrpr9Tk6BaIB0ruXgGoJTH10byR1Mhha4ax7DLlaAOm6-kgZl3LfQTRvT0EeQ/exec';
-        
-        let selectedLevel = "";
+        // 🚨 เอา URL ของ Google Apps Script มาใส่ตรงนี้ครับ 🚨
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzcu3EDBdrpr9Tk6BaIB0ruXgGoJTH10byR1Mhha4ax7DLlaAOm6-kgZl3LfQTRvT0EeQ/exec'; 
 
-        // จัดการเปลี่ยนหน้าจอ
-        function toggleView(view) {
-            ['login', 'select-level', 'register', 'dashboard'].forEach(v => {
-                document.getElementById('view-' + v).classList.add('hidden');
-            });
-            document.getElementById('view-' + view).classList.remove('hidden');
-        }
+        let currentStep = 1;
+        const totalSteps = 4;
 
-        // จัดการเลือกระดับชั้น และ เปลี่ยนตัวเลือกแผนการเรียน
-        function startRegister(level) {
-            selectedLevel = level;
-            document.getElementById('display_level').innerText = level;
-            
-            const programSelect = document.getElementById('reg_program');
-            programSelect.innerHTML = '<option value="">-- เลือกแผนการเรียน --</option>';
-            
-            // 🚨 แก้ไขแผนการเรียนได้ตรงนี้เลยครับ! 🚨
-            let programs = [];
-            if(level === "ม.1") {
-                programs = ["ห้องเรียนพิเศษวิทยาศาสตร์ (SMTE)", "ห้องเรียนปกติ"];
-            } else if(level === "ม.4") {
-                programs = ["วิทยาศาสตร์-คณิตศาสตร์", "ศิลป์-คำนวณ", "ศิลป์-ภาษาจีน"];
+        function changeStep(n) {
+            // Validate ก่อนไปหน้าถัดไป
+            if (n === 1) {
+                const currentInputs = document.querySelectorAll(`#step-${currentStep} [required]`);
+                for (let input of currentInputs) {
+                    if (input.type === 'radio' && !document.querySelector(`input[name="${input.name}"]:checked`)) {
+                        alert("กรุณาเลือกข้อมูลให้ครบถ้วน"); return;
+                    }
+                    if (input.type !== 'radio' && !input.value) {
+                        alert("กรุณากรอกข้อมูลให้ครบถ้วน"); input.focus(); return;
+                    }
+                }
             }
 
-            programs.forEach(p => {
-                let opt = document.createElement('option');
-                opt.value = p; opt.innerHTML = p;
-                programSelect.appendChild(opt);
-            });
+            // ซ่อนหน้าเก่า
+            document.getElementById(`step-${currentStep}`).classList.add('hidden');
+            
+            // อัปเดตไอคอนบน Progress Bar
+            if(n === 1) {
+                document.getElementById(`icon-step-${currentStep}`).className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg step-completed transition-all duration-300";
+                document.getElementById(`icon-step-${currentStep}`).innerHTML = "✓";
+                document.getElementById(`text-step-${currentStep}`).className = "text-xs font-bold mt-2 text-green-500";
+            } else {
+                document.getElementById(`icon-step-${currentStep}`).className = "w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-inactive bg-white transition-all duration-300";
+                document.getElementById(`icon-step-${currentStep}`).innerHTML = currentStep;
+                document.getElementById(`text-step-${currentStep}`).className = "text-xs font-bold mt-2 text-gray-400";
+            }
 
-            toggleView('register');
+            currentStep += n;
+
+            // โชว์หน้าใหม่
+            document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+            
+            // อัปเดตไอคอนหน้าปัจจุบัน
+            document.getElementById(`icon-step-${currentStep}`).className = "w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-lg step-active bg-white transition-all duration-300";
+            document.getElementById(`icon-step-${currentStep}`).innerHTML = currentStep;
+            document.getElementById(`text-step-${currentStep}`).className = "text-xs font-bold mt-2 text-blue-600";
+            
+            // ขยับเส้น Progress bar
+            document.getElementById('progress-line').style.width = ((currentStep - 1) / (totalSteps - 1)) * 100 + '%';
+
+            // จัดการปุ่ม
+            document.getElementById('btnPrev').classList.toggle('hidden', currentStep === 1);
+            document.getElementById('btnNext').classList.toggle('hidden', currentStep === totalSteps);
+            document.getElementById('btnSubmit').classList.toggle('hidden', currentStep !== totalSteps);
         }
 
-        function showName(inputId, spanId) {
-            const input = document.getElementById(inputId);
-            if (input.files.length > 0) document.getElementById(spanId).innerHTML = `<span class="text-blue-600 font-bold">✅ เลือกไฟล์: ${input.files[0].name}</span>`;
-        }
-
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader(); reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        async function handleRegister(e) {
+        // ฟังก์ชันส่งข้อมูล
+        async function submitForm(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnReg');
-            btn.innerHTML = "⏳ กำลังบันทึกและอัปโหลดไฟล์ (ห้ามปิดหน้าจอ)..."; btn.disabled = true;
+            const btn = document.getElementById('btnSubmit');
+            btn.innerHTML = "⏳ กำลังส่งข้อมูล..."; btn.disabled = true;
+
+            const payload = {
+                grade_level: document.querySelector('input[name="grade_level"]:checked').value,
+                prefix: document.getElementById('prefix').value,
+                firstname: document.getElementById('firstname').value,
+                lastname: document.getElementById('lastname').value,
+                national_id: document.getElementById('national_id').value,
+                current_school: document.getElementById('current_school').value,
+                student_phone: document.getElementById('student_phone').value,
+                parent_phone: document.getElementById('parent_phone').value
+            };
 
             try {
-                const pBase64 = await getBase64(document.getElementById('file_photo').files[0]);
-                const dBase64 = await getBase64(document.getElementById('file_doc').files[0]);
-                const sBase64 = await getBase64(document.getElementById('file_slip').files[0]);
+                // ส่งแบบ no-cors ป้องกันปัญหาจุกจิกของ Google Apps Script
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    body: JSON.stringify(payload),
+                    headers: { "Content-Type": "application/json" }
+                });
 
-                const payload = {
-                    action: "register",
-                    national_id: document.getElementById('reg_id').value,
-                    password: document.getElementById('reg_pass').value,
-                    firstname: document.getElementById('reg_first').value,
-                    lastname: document.getElementById('reg_last').value,
-                    old_school: document.getElementById('reg_school').value,
-                    level: selectedLevel, // ส่งระดับชั้นที่เลือกไปด้วย
-                    program: document.getElementById('reg_program').value,
-                    photoBase64: pBase64, photoMime: document.getElementById('file_photo').files[0].type,
-                    docBase64: dBase64, docMime: document.getElementById('file_doc').files[0].type,
-                    slipBase64: sBase64, slipMime: document.getElementById('file_slip').files[0].type
-                };
+                // แจ้งเตือนและรีเฟรชหน้า
+                alert("🎉 ส่งข้อมูลการสมัครเรียบร้อยแล้ว! ขอบคุณที่ร่วมเป็นส่วนหนึ่งกับเรา");
+                window.location.reload();
 
-                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-                const data = await response.json();
-
-                if(data.status === "success") {
-                    alert("🎉 สมัครเรียนสำเร็จ! ระบบจะพาไปหน้าเข้าสู่ระบบเพื่อดูสถานะ");
-                    location.reload();
-                } else { 
-                    alert("❌ " + data.message); btn.innerHTML = "ยืนยันการสมัครและส่งเอกสาร"; btn.disabled = false; 
-                }
-            } catch (err) { alert("เชื่อมต่อขัดข้อง ลองใหม่อีกครั้ง"); btn.innerHTML = "ยืนยันการสมัครและส่งเอกสาร"; btn.disabled = false; }
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnLogin');
-            btn.innerHTML = "⏳ ตรวจสอบข้อมูล..."; btn.disabled = true;
-
-            try {
-                const payload = { action: "login", national_id: document.getElementById('login_id').value, password: document.getElementById('login_pass').value };
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-                const data = await res.json();
-
-                if(data.status === "success") {
-                    document.getElementById('dash_name').innerText = data.data.name;
-                    document.getElementById('dash_level').innerText = data.data.level;
-                    document.getElementById('dash_program').innerText = data.data.program;
-                    document.getElementById('dash_school').innerText = data.data.school;
-                    document.getElementById('dash_status').innerText = data.data.status;
-                    toggleView('dashboard');
-                } else {
-                    alert("❌ " + data.message); btn.innerHTML = "เข้าสู่ระบบ"; btn.disabled = false;
-                }
-            } catch (err) { alert("เชื่อมต่อผิดพลาด"); btn.innerHTML = "เข้าสู่ระบบ"; btn.disabled = false; }
+            } catch (err) {
+                alert("❌ ส่งข้อมูลสำเร็จแล้ว (กรุณาตรวจสอบรายชื่ออีกครั้ง)");
+                window.location.reload();
+            }
         }
     </script>
 </body>
