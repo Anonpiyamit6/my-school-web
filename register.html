@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กรอกใบสมัครเข้าเรียน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; } </style>
+</head>
+<body class="py-8 px-4">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-blue-800 text-white p-6 text-center">
+            <h1 class="text-2xl font-bold">ใบสมัครเข้าศึกษาต่อ ปีการศึกษา 2568</h1>
+            <p class="text-blue-200 mt-1">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบก่อนบันทึก</p>
+        </div>
+
+        <form onsubmit="handleRegister(event)" class="p-8">
+            <!-- ส่วนที่ 1: ข้อมูลล็อกอิน -->
+            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4">1. ข้อมูลสำหรับเข้าสู่ระบบ (จำให้ดี)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div><label class="block text-sm font-bold mb-1">เลขประจำตัวประชาชน 13 หลัก *</label><input type="text" id="reg_id" maxlength="13" class="w-full border rounded p-2 bg-gray-50" required></div>
+                <div><label class="block text-sm font-bold mb-1">ตั้งรหัสผ่าน *</label><input type="password" id="reg_pass" class="w-full border rounded p-2 bg-gray-50" required></div>
+            </div>
+
+            <!-- ส่วนที่ 2: ข้อมูลส่วนตัว -->
+            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4 mt-8">2. ข้อมูลส่วนตัวและการศึกษา</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div><label class="block text-sm font-bold mb-1">ชื่อจริง *</label><input type="text" id="reg_first" class="w-full border rounded p-2" required></div>
+                <div><label class="block text-sm font-bold mb-1">นามสกุล *</label><input type="text" id="reg_last" class="w-full border rounded p-2" required></div>
+                <div><label class="block text-sm font-bold mb-1">จบจากโรงเรียน *</label><input type="text" id="reg_school" class="w-full border rounded p-2" required></div>
+                <div><label class="block text-sm font-bold mb-1">แผนการเรียนที่ต้องการ *</label>
+                    <select id="reg_program" class="w-full border rounded p-2" required>
+                        <option value="วิทย์-คณิต">วิทย์-คณิต</option><option value="ศิลป์-คำนวณ">ศิลป์-คำนวณ</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ส่วนที่ 3: อัปโหลดเอกสาร -->
+            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4 mt-8">3. อัปโหลดเอกสารและหลักฐาน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="border border-dashed border-gray-400 p-4 text-center rounded bg-gray-50">
+                    <label class="block text-sm font-bold text-blue-600 cursor-pointer">1. รูปถ่ายนักเรียน<input type="file" id="file_photo" accept="image/*" class="hidden" required onchange="showName('file_photo', 'name_photo')"></label>
+                    <p id="name_photo" class="text-xs mt-2 text-gray-500">ยังไม่ได้เลือกไฟล์</p>
+                </div>
+                <div class="border border-dashed border-gray-400 p-4 text-center rounded bg-gray-50">
+                    <label class="block text-sm font-bold text-blue-600 cursor-pointer">2. เอกสาร ปพ.1<input type="file" id="file_doc" accept=".pdf,image/*" class="hidden" required onchange="showName('file_doc', 'name_doc')"></label>
+                    <p id="name_doc" class="text-xs mt-2 text-gray-500">ยังไม่ได้เลือกไฟล์</p>
+                </div>
+                <div class="border border-dashed border-gray-400 p-4 text-center rounded bg-gray-50">
+                    <label class="block text-sm font-bold text-green-600 cursor-pointer">3. สลิปค่าสมัครสอบ<input type="file" id="file_slip" accept="image/*" class="hidden" required onchange="showName('file_slip', 'name_slip')"></label>
+                    <p id="name_slip" class="text-xs mt-2 text-gray-500">ยังไม่ได้เลือกไฟล์</p>
+                </div>
+            </div>
+
+            <button type="submit" id="btnReg" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 rounded-lg text-lg shadow-lg">
+                ยืนยันการสมัครและส่งข้อมูล
+            </button>
+            <p class="text-center mt-4 text-gray-600"><a href="index.html" class="underline text-blue-600">กลับไปหน้าเข้าสู่ระบบ</a></p>
+        </form>
+    </div>
+
+    <script>
+        // 🚨 ใส่ URL ของ Google Apps Script ที่นี่ 🚨
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzcu3EDBdrpr9Tk6BaIB0ruXgGoJTH10byR1Mhha4ax7DLlaAOm6-kgZl3LfQTRvT0EeQ/exec';
+
+        function showName(inputId, spanId) {
+            const input = document.getElementById(inputId);
+            if (input.files.length > 0) document.getElementById(spanId).innerText = "✅ " + input.files[0].name;
+        }
+
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader(); reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnReg');
+            btn.innerHTML = "⏳ กำลังอัปโหลดข้อมูล (อาจใช้เวลา 1-2 นาที ห้ามปิดหน้าต่าง)..."; btn.disabled = true;
+
+            try {
+                const pBase64 = await getBase64(document.getElementById('file_photo').files[0]);
+                const dBase64 = await getBase64(document.getElementById('file_doc').files[0]);
+                const sBase64 = await getBase64(document.getElementById('file_slip').files[0]);
+
+                const payload = {
+                    action: "register",
+                    national_id: document.getElementById('reg_id').value,
+                    password: document.getElementById('reg_pass').value,
+                    firstname: document.getElementById('reg_first').value,
+                    lastname: document.getElementById('reg_last').value,
+                    old_school: document.getElementById('reg_school').value,
+                    program: document.getElementById('reg_program').value,
+                    photoBase64: pBase64, photoMime: document.getElementById('file_photo').files[0].type,
+                    docBase64: dBase64, docMime: document.getElementById('file_doc').files[0].type,
+                    slipBase64: sBase64, slipMime: document.getElementById('file_slip').files[0].type
+                };
+
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await response.json();
+
+                if(data.status === "success") {
+                    alert("🎉 สมัครสำเร็จ! กรุณาเข้าสู่ระบบเพื่อพิมพ์ใบสมัคร");
+                    window.location.href = 'index.html'; // เด้งกลับไปหน้าแรก
+                } else { alert("❌ " + data.message); btn.innerHTML = "ยืนยันการสมัครและส่งข้อมูล"; btn.disabled = false; }
+            } catch (err) { alert("เครือข่ายขัดข้อง กรุณาลองใหม่"); btn.innerHTML = "ยืนยันการสมัครและส่งข้อมูล"; btn.disabled = false; }
+        }
+    </script>
+</body>
+</html>
