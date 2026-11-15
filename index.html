@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Portal | ระบบรับสมัคร</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="min-h-screen bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-fixed bg-no-repeat">
+    
+    <!-- Overlay ให้ภาพพื้นหลังมืดลงนิดนึง -->
+    <div class="min-h-screen w-full bg-blue-900/60 flex items-center justify-center p-4 md:p-8">
+        
+        <div class="w-full max-w-4xl glass-panel rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row transition-all duration-500">
+            
+            <!-- ด้านซ้าย: Branding -->
+            <div class="w-full md:w-2/5 bg-blue-800 p-8 text-white flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                    </div>
+                    <h1 class="text-3xl font-bold mb-2">Admission 2025</h1>
+                    <p class="text-blue-200 text-sm">ระบบรับสมัครนักเรียนออนไลน์ รูปแบบใหม่ รวดเร็ว ปลอดภัย</p>
+                </div>
+                <div class="mt-12 md:mt-0">
+                    <p class="text-sm text-blue-300">พบปัญหาการใช้งานติดต่อ<br>support@school.ac.th</p>
+                </div>
+            </div>
+
+            <!-- ด้านขวา: Dynamic Forms -->
+            <div class="w-full md:w-3/5 p-8 relative">
+                
+                <!-- 1. ส่วนเข้าสู่ระบบ (Login) -->
+                <div id="section-login" class="transition-opacity duration-300">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">เข้าสู่ระบบผู้สมัคร</h2>
+                    <form onsubmit="handleLogin(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">เลขประจำตัวประชาชน 13 หลัก</label>
+                            <input type="text" id="login_id" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">รหัสผ่าน</label>
+                            <input type="password" id="login_pass" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" required>
+                        </div>
+                        <button type="submit" id="btnLogin" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition">
+                            เข้าสู่ระบบ
+                        </button>
+                    </form>
+                    <div class="mt-8 text-center border-t pt-6">
+                        <p class="text-gray-600">ยังไม่เคยสร้างใบสมัคร? <button onclick="toggleView('register')" class="text-blue-600 font-bold hover:underline">ลงทะเบียนที่นี่</button></p>
+                    </div>
+                </div>
+
+                <!-- 2. ส่วนลงทะเบียน (Register & Upload) ซ่อนไว้ตอนแรก -->
+                <div id="section-register" class="hidden h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">สร้างใบสมัครใหม่</h2>
+                        <button onclick="toggleView('login')" class="text-sm text-gray-500 hover:text-gray-800 font-semibold">✕ ปิด</button>
+                    </div>
+                    
+                    <form onsubmit="handleRegister(event)" class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">เลขประจำตัวประชาชน</label><input type="text" id="reg_id" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required></div>
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">ตั้งรหัสผ่าน</label><input type="password" id="reg_pass" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">ชื่อจริง</label><input type="text" id="reg_first" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required></div>
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">นามสกุล</label><input type="text" id="reg_last" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">โรงเรียนเดิม</label><input type="text" id="reg_school" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required></div>
+                            <div><label class="block text-sm font-semibold text-gray-700 mb-1">แผนการเรียน</label>
+                                <select id="reg_program" class="w-full px-3 py-2 rounded border bg-gray-50 focus:border-blue-500 outline-none" required>
+                                    <option value="วิทย์-คณิต">วิทย์-คณิต</option><option value="ศิลป์-คำนวณ">ศิลป์-คำนวณ</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- โซนอัปโหลดเอกสาร -->
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <h3 class="font-bold text-gray-800 mb-3">อัปโหลดเอกสารประกอบ</h3>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">1. รูปถ่ายนักเรียน (JPG/PNG)</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                    <input type="file" id="file_photo" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required onchange="updateFileName('file_photo', 'name_photo')">
+                                    <span id="name_photo" class="text-sm text-gray-500 font-medium">คลิกเพื่อเลือกไฟล์รูปภาพ...</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">2. เอกสาร ปพ.1 (PDF/JPG)</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                    <input type="file" id="file_doc" accept=".pdf,image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required onchange="updateFileName('file_doc', 'name_doc')">
+                                    <span id="name_doc" class="text-sm text-gray-500 font-medium">คลิกเพื่อเลือกไฟล์เอกสาร...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btnReg" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition mt-4">
+                            บันทึกข้อมูลและส่งเอกสาร
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 3. ส่วน Dashboard โชว์หลัง Login -->
+                <div id="section-dashboard" class="hidden">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-gray-800">บัตรประจำตัวผู้สมัคร</h2>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 mb-6">
+                        <p class="text-sm text-gray-500 mb-1">ชื่อ - นามสกุล</p><p id="dash_name" class="font-bold text-lg text-gray-800 mb-4"></p>
+                        <p class="text-sm text-gray-500 mb-1">แผนการเรียนที่สมัคร</p><p id="dash_program" class="font-bold text-gray-800 mb-4"></p>
+                        <p class="text-sm text-gray-500 mb-1">สถานะเอกสาร</p><p id="dash_status" class="font-bold text-orange-500 text-lg"></p>
+                    </div>
+                    <button onclick="location.reload()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 rounded-lg transition">ออกจากระบบ</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🚨 เอา URL ของ Google Apps Script มาใส่ตรงนี้ 🚨
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzcu3EDBdrpr9Tk6BaIB0ruXgGoJTH10byR1Mhha4ax7DLlaAOm6-kgZl3LfQTRvT0EeQ/exec';
+
+        // ฟังก์ชันสลับหน้าไปมา
+        function toggleView(view) {
+            document.getElementById('section-login').classList.add('hidden');
+            document.getElementById('section-register').classList.add('hidden');
+            document.getElementById('section-dashboard').classList.add('hidden');
+            document.getElementById('section-' + view).classList.remove('hidden');
+        }
+
+        // แสดงชื่อไฟล์ตอนกดเลือก
+        function updateFileName(inputId, spanId) {
+            const input = document.getElementById(inputId);
+            if (input.files.length > 0) document.getElementById(spanId).innerText = "✅ " + input.files[0].name;
+        }
+
+        // แปลงไฟล์เป็น Base64 (เพื่อให้ส่งผ่าน API ได้)
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // กดปุ่ม Register
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnReg');
+            btn.innerHTML = "⏳ กำลังอัปโหลดเอกสาร โปรดรอสักครู่..."; btn.disabled = true;
+
+            try {
+                const filePhoto = document.getElementById('file_photo').files[0];
+                const fileDoc = document.getElementById('file_doc').files[0];
+
+                const photoBase64 = await getBase64(filePhoto);
+                const docBase64 = await getBase64(fileDoc);
+
+                const payload = {
+                    action: "register",
+                    national_id: document.getElementById('reg_id').value,
+                    password: document.getElementById('reg_pass').value,
+                    firstname: document.getElementById('reg_first').value,
+                    lastname: document.getElementById('reg_last').value,
+                    old_school: document.getElementById('reg_school').value,
+                    program: document.getElementById('reg_program').value,
+                    photoBase64: photoBase64, photoMime: filePhoto.type,
+                    docBase64: docBase64, docMime: fileDoc.type
+                };
+
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await response.json();
+
+                if(data.status === "success") {
+                    alert("🎉 อัปโหลดเอกสารและสร้างใบสมัครสำเร็จ!");
+                    toggleView('login');
+                } else {
+                    alert("❌ ข้อผิดพลาด: " + data.message);
+                }
+            } catch (err) { alert("เกิดข้อผิดพลาดในการเชื่อมต่อ"); }
+            
+            btn.innerHTML = "บันทึกข้อมูลและส่งเอกสาร"; btn.disabled = false;
+        }
+
+        // กดปุ่ม Login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnLogin');
+            btn.innerHTML = "⏳ กำลังเข้าสู่ระบบ..."; btn.disabled = true;
+
+            try {
+                const payload = { action: "login", national_id: document.getElementById('login_id').value, password: document.getElementById('login_pass').value };
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await response.json();
+
+                if(data.status === "success") {
+                    document.getElementById('dash_name').innerText = data.data.name;
+                    document.getElementById('dash_program').innerText = data.data.program;
+                    document.getElementById('dash_status').innerText = data.data.status;
+                    toggleView('dashboard');
+                } else {
+                    alert("❌ " + data.message);
+                }
+            } catch (err) { alert("เกิดข้อผิดพลาดในการเชื่อมต่อ"); }
+            
+            btn.innerHTML = "เข้าสู่ระบบ"; btn.disabled = false;
+        }
+    </script>
+    <style> /* แต่ง Scrollbar ให้ดูหรู */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</body>
+</html>
