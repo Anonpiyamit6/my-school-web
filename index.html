@@ -108,19 +108,37 @@
                     </form>
                 </div>
 
-                <!-- 3. ส่วน Dashboard โชว์หลัง Login -->
-                <div id="section-dashboard" class="hidden">
-                    <div class="text-center mb-6">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
-                        <h2 class="text-2xl font-bold text-gray-800">บัตรประจำตัวผู้สมัคร</h2>
-                    </div>
-                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 mb-6">
-                        <p class="text-sm text-gray-500 mb-1">ชื่อ - นามสกุล</p><p id="dash_name" class="font-bold text-lg text-gray-800 mb-4"></p>
-                        <p class="text-sm text-gray-500 mb-1">แผนการเรียนที่สมัคร</p><p id="dash_program" class="font-bold text-gray-800 mb-4"></p>
-                        <p class="text-sm text-gray-500 mb-1">สถานะเอกสาร</p><p id="dash_status" class="font-bold text-orange-500 text-lg"></p>
-                    </div>
-                    <button onclick="location.reload()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 rounded-lg transition">ออกจากระบบ</button>
-                </div>
+                <!-- 3. ส่วน Dashboard โชว์หลัง Login (ปรับให้เป็นใบสมัคร A4) -->
+<div id="section-dashboard" class="hidden bg-white p-8 max-w-2xl mx-auto shadow-sm border print:shadow-none print:border-none print:p-0">
+    
+    <!-- ส่วนหัวกระดาษ (Header ราชการ) -->
+    <div class="text-center mb-6 border-b-2 border-gray-800 pb-4">
+        <h1 class="text-2xl font-bold text-black">ใบสมัครเข้าศึกษาต่อระดับมัธยมศึกษา</h1>
+        <p class="text-md text-black mt-1">ปีการศึกษา 2568 (พิมพ์จากระบบออนไลน์)</p>
+    </div>
+
+    <!-- ข้อมูลผู้สมัคร -->
+    <table class="w-full text-black mb-8 text-lg">
+        <tbody>
+            <tr><td class="py-2 font-bold w-1/3">ชื่อ-นามสกุล:</td><td class="py-2 border-b border-dotted border-gray-400" id="dash_name"></td></tr>
+            <tr><td class="py-2 font-bold w-1/3">จบจากโรงเรียน:</td><td class="py-2 border-b border-dotted border-gray-400" id="dash_school"></td></tr>
+            <tr><td class="py-2 font-bold w-1/3">แผนการเรียนที่สมัคร:</td><td class="py-2 border-b border-dotted border-gray-400" id="dash_program"></td></tr>
+            <tr><td class="py-2 font-bold w-1/3">สถานะใบสมัคร:</td><td class="py-2 font-bold text-blue-600" id="dash_status"></td></tr>
+        </tbody>
+    </table>
+
+    <div class="mt-12 pt-8 text-center text-black">
+        <p>ลงชื่อ..............................................................ผู้สมัคร</p>
+        <p class="mt-2">(..............................................................)</p>
+        <p class="mt-2">วันที่.........เดือน........................พ.ศ. ..............</p>
+    </div>
+
+    <!-- ปุ่มกด (จะถูกซ่อนตอนสั่งพิมพ์ด้วยคลาส print:hidden) -->
+    <div class="mt-10 flex gap-4 print:hidden">
+        <button onclick="window.print()" class="flex-1 bg-blue-800 text-white font-bold py-3 rounded shadow">🖨️ พิมพ์ใบสมัครนี้</button>
+        <button onclick="location.reload()" class="w-1/3 bg-gray-300 text-gray-800 font-bold py-3 rounded">ออกจากระบบ</button>
+    </div>
+</div>
 
             </div>
         </div>
