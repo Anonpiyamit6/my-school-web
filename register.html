@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลงทะเบียน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Sarabun', sans-serif; background-color: #f0f4f8; } </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg border-t-4 border-orange-500">
+        <h2 class="text-xl font-bold mb-4 border-b pb-2">ลงทะเบียนผู้สมัครใหม่</h2>
+        <form onsubmit="doReg(event)">
+            <div class="grid grid-cols-2 gap-4 bg-orange-50 p-4 rounded mb-4">
+                <div><label class="block text-sm font-bold">เลขบัตร (Username)</label><input type="text" id="r_id" maxlength="13" class="w-full border p-1 rounded" required></div>
+                <div><label class="block text-sm font-bold">ตั้งรหัสผ่าน (Password)</label><input type="password" id="r_pass" class="w-full border p-1 rounded" required></div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div><label class="block text-sm font-bold">คำนำหน้า</label><select id="r_pre" class="w-full border p-1 rounded"><option value="ด.ช.">ด.ช.</option><option value="ด.ญ.">ด.ญ.</option></select></div>
+                <div><label class="block text-sm font-bold">ชื่อ</label><input type="text" id="r_first" class="w-full border p-1 rounded" required></div>
+                <div><label class="block text-sm font-bold">นามสกุล</label><input type="text" id="r_last" class="w-full border p-1 rounded" required></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div><label class="block text-sm font-bold">โรงเรียนเดิม</label><input type="text" id="r_school" class="w-full border p-1 rounded" required></div>
+                <div><label class="block text-sm font-bold">เกรด (GPA)</label><input type="number" step="0.01" id="r_gpa" class="w-full border p-1 rounded" required></div>
+            </div>
+            <div class="mb-6"><label class="block text-sm font-bold">แผนการเรียน</label><select id="r_prog" class="w-full border p-1 rounded"><option value="วิทย์-คณิต">วิทย์-คณิต</option><option value="ศิลป์-คำนวณ">ศิลป์-คำนวณ</option></select></div>
+            <button type="submit" id="btnReg" class="w-full bg-orange-600 text-white font-bold py-2 rounded">บันทึกการลงทะเบียน</button>
+            <p class="text-center mt-4"><a href="index.html" class="text-blue-600 text-sm">กลับหน้าเข้าสู่ระบบ</a></p>
+        </form>
+    </div>
+    <script>
+        // 🚨🚨 เอาลิงก์จากด่านที่ 1 มาวางในเครื่องหมายคำพูดด้านล่างนี้ 🚨🚨
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzcu3EDBdrpr9Tk6BaIB0ruXgGoJTH10byR1Mhha4ax7DLlaAOm6-kgZl3LfQTRvT0EeQ/exec';
+
+        function doReg(e) {
+            e.preventDefault();
+            document.getElementById('btnReg').innerText = "กำลังบันทึก...";
+            fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "register", national_id: document.getElementById('r_id').value, password: document.getElementById('r_pass').value, prefix: document.getElementById('r_pre').value, firstname: document.getElementById('r_first').value, lastname: document.getElementById('r_last').value, old_school: document.getElementById('r_school').value, gpa: document.getElementById('r_gpa').value, program: document.getElementById('r_prog').value }),
+                headers: { "Content-Type": "text/plain;charset=utf-8" }
+            }).then(r => r.json()).then(data => {
+                if(data.status === "success") { alert("สมัครสำเร็จ!"); window.location.href = "index.html"; } 
+                else { alert(data.message); document.getElementById('btnReg').innerText = "บันทึกการลงทะเบียน"; }
+            });
+        }
+    </script>
+</body>
+</html>
