@@ -19,7 +19,6 @@
 <body class="min-h-screen text-gray-800">
 
     <div id="main-ui">
-        <!-- Header สีเขียว/เหลือง แบบโรงเรียน -->
         <header class="bg-[#005c2a] text-white p-6 shadow-md border-b-4 border-yellow-400">
             <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between">
                 <div class="text-center md:text-left">
@@ -55,7 +54,7 @@
             </div>
 
             <!-- ===================== -->
-            <!-- 2. แบบฟอร์มรับสมัครสอบ (ตามรูป) -->
+            <!-- 2. แบบฟอร์มรับสมัครสอบ -->
             <!-- ===================== -->
             <div id="view-register" class="hidden">
                 <div class="flex justify-between items-center mb-4">
@@ -65,37 +64,47 @@
 
                 <form onsubmit="handleRegister(event)" class="bg-white rounded-lg shadow-lg p-6 md:p-8 space-y-8 border border-gray-200">
                     
-                    <!-- ส่วนตั้งรหัสผ่าน -->
                     <div class="bg-yellow-50 p-4 rounded border border-yellow-200">
                         <h3 class="font-bold text-yellow-800 mb-2">1. ตั้งรหัสผ่านสำหรับพิมพ์บัตรสอบ</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label class="block font-bold text-sm mb-1">เลขประจำตัวประชาชน (ใช้เป็น Username) *</label><input type="text" id="reg_id" maxlength="13" class="w-full border rounded p-2" required></div>
+                            <div><label class="block font-bold text-sm mb-1">เลขประจำตัวประชาชน *</label><input type="text" id="reg_id" maxlength="13" class="w-full border rounded p-2" required></div>
                             <div><label class="block font-bold text-sm mb-1">ตั้งรหัสผ่าน *</label><input type="password" id="reg_pass" class="w-full border rounded p-2" required></div>
                         </div>
                     </div>
 
-                    <!-- ระดับชั้น (ตามรูป 1) -->
                     <div>
-                        <h3 class="font-bold text-lg mb-3">ระดับชั้นปัจจุบันของนักเรียน <span class="text-red-500">*</span></h3>
-                        <div class="space-y-2" id="grade-selection">
-                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 4" class="w-5 h-5 mr-3" required onclick="showInfo('P')"> ชั้นประถมศึกษาปีที่ 4</label>
-                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 5" class="w-5 h-5 mr-3" required onclick="showInfo('P')"> ชั้นประถมศึกษาปีที่ 5</label>
-                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 6" class="w-5 h-5 mr-3" required onclick="showInfo('P')"> ชั้นประถมศึกษาปีที่ 6</label>
-                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นมัธยมศึกษาปีที่ 3" class="w-5 h-5 mr-3" required onclick="showInfo('M')"> ชั้นมัธยมศึกษาปีที่ 3</label>
+                        <h3 class="font-bold text-lg mb-3">2. ระดับชั้นปัจจุบันของนักเรียน <span class="text-red-500">*</span></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2" id="grade-selection">
+                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 4" class="w-5 h-5 mr-3" required onclick="updateProjectOptions('P')"> ชั้นประถมศึกษาปีที่ 4</label>
+                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 5" class="w-5 h-5 mr-3" required onclick="updateProjectOptions('P')"> ชั้นประถมศึกษาปีที่ 5</label>
+                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นประถมศึกษาปีที่ 6" class="w-5 h-5 mr-3" required onclick="updateProjectOptions('P')"> ชั้นประถมศึกษาปีที่ 6</label>
+                            <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50"><input type="radio" name="grade" value="ชั้นมัธยมศึกษาปีที่ 3" class="w-5 h-5 mr-3" required onclick="updateProjectOptions('M')"> ชั้นมัธยมศึกษาปีที่ 3</label>
                         </div>
                     </div>
 
-                    <!-- กล่องข้อความแจ้งรายละเอียด (ซ่อนไว้ก่อน จะโชว์เมื่อกดเลือกระดับชั้น) -->
-                    <div id="info-box-p" class="hidden bg-blue-50 border border-blue-200 p-4 rounded text-blue-800 text-sm">
-                        <strong>สำหรับนักเรียนชั้น ป.4 - ป.6:</strong> โครงการที่รองรับคือ S&M ช้างเผือก, EIS, GATE, SPORT PROGRAM (รายละเอียดโครงการตามประกาศโรงเรียน)
-                    </div>
-                    <div id="info-box-m" class="hidden bg-green-50 border border-green-200 p-4 rounded text-green-800 text-sm">
-                        <strong>สำหรับนักเรียนชั้น ม.3:</strong> กรุณาศึกษาระเบียบการรับสมัครของระดับชั้นมัธยมศึกษาปีที่ 4 ตามประกาศโรงเรียน
+                    <!-- เลือกลำดับโครงการ (เพิ่มใหม่) -->
+                    <div id="project-selection-box" class="hidden bg-green-50 border border-green-200 p-4 rounded-lg">
+                        <h3 class="font-bold text-green-900 mb-3">3. เลือกอันดับโครงการที่ประสงค์จะเข้าศึกษาต่อ <span class="text-red-500">*</span></h3>
+                        <p class="text-sm text-green-700 mb-4">กรุณาเลือกโครงการไม่ซ้ำกัน (ระบบจะแสดงตัวเลือกตามระดับชั้นที่ท่านเลือก)</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block font-bold text-sm mb-1">อันดับที่ 1</label>
+                                <select id="choice1" class="w-full border-2 border-green-400 rounded p-2 focus:outline-none" required onchange="validateChoices()"></select>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-sm mb-1">อันดับที่ 2</label>
+                                <select id="choice2" class="w-full border-2 border-green-400 rounded p-2 focus:outline-none" required onchange="validateChoices()"></select>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-sm mb-1">อันดับที่ 3</label>
+                                <select id="choice3" class="w-full border-2 border-green-400 rounded p-2 focus:outline-none" required onchange="validateChoices()"></select>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- ข้อมูลส่วนตัว (ตามรูป 7) -->
                     <div>
-                        <h3 class="font-bold text-lg mb-3">ข้อมูลส่วนตัว</h3>
+                        <h3 class="font-bold text-lg mb-3">4. ข้อมูลส่วนตัว</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
                                 <label class="block font-bold mb-1 text-sm">คำนำหน้า *</label>
@@ -106,24 +115,22 @@
                                     <label class="flex items-center"><input type="radio" name="prefix" value="นางสาว" required class="mr-2"> นางสาว</label>
                                 </div>
                             </div>
-                            <div><label class="block font-bold mb-1 text-sm">ชื่อ (ไม่ต้องใส่คำนำหน้า) *</label><input type="text" id="reg_first" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" placeholder="ตัวอย่าง : สมชาย" required></div>
-                            <div><label class="block font-bold mb-1 text-sm">นามสกุล *</label><input type="text" id="reg_last" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" placeholder="ตัวอย่าง : รักเรียน" required></div>
+                            <div><label class="block font-bold mb-1 text-sm">ชื่อ (ไม่ต้องใส่คำนำหน้า) *</label><input type="text" id="reg_first" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" placeholder="สมชาย" required></div>
+                            <div><label class="block font-bold mb-1 text-sm">นามสกุล *</label><input type="text" id="reg_last" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" placeholder="รักเรียน" required></div>
                         </div>
                     </div>
 
-                    <!-- ข้อมูลโรงเรียน (ตามรูป 8) -->
                     <div>
-                        <h3 class="font-bold text-lg mb-3">ข้อมูลการติดต่อ</h3>
+                        <h3 class="font-bold text-lg mb-3">5. ข้อมูลการติดต่อ</h3>
                         <div class="space-y-4">
-                            <div><label class="block font-bold mb-1 text-sm">โรงเรียนที่กำลังศึกษาอยู่ในปัจจุบัน (ไม่ต้องพิมพ์คำว่าโรงเรียน) *</label><input type="text" id="reg_school" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
+                            <div><label class="block font-bold mb-1 text-sm">โรงเรียนปัจจุบัน (ไม่ต้องพิมพ์คำว่าโรงเรียน) *</label><input type="text" id="reg_school" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div><label class="block font-bold mb-1 text-sm">เบอร์โทรศัพท์นักเรียน (ไม่ต้องใส่ขีด) *</label><input type="text" id="reg_phone1" maxlength="10" placeholder="0887776654" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
-                                <div><label class="block font-bold mb-1 text-sm">เบอร์โทรศัพท์ผู้ปกครอง (ไม่ต้องใส่ขีด) *</label><input type="text" id="reg_phone2" maxlength="10" placeholder="0887776654" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
+                                <div><label class="block font-bold mb-1 text-sm">เบอร์โทรนักเรียน *</label><input type="text" id="reg_phone1" maxlength="10" placeholder="0887776654" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
+                                <div><label class="block font-bold mb-1 text-sm">เบอร์โทรผู้ปกครอง *</label><input type="text" id="reg_phone2" maxlength="10" placeholder="0887776654" class="w-full border-b-2 border-gray-300 p-2 outline-none focus:border-[#005c2a]" required></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- การรับทราบ (ตามรูป 9) -->
                     <div class="bg-gray-50 border p-4 rounded">
                         <label class="flex items-start cursor-pointer">
                             <input type="radio" name="accept" value="รับทราบ" class="w-5 h-5 mr-3 mt-1" required>
@@ -148,6 +155,13 @@
                     <div class="text-center mb-6 border-b pb-4">
                         <h2 class="text-2xl font-bold text-gray-800">ข้อมูลผู้สมัครสอบ</h2>
                         <p class="text-gray-500">สอบแข่งขันเพชรราชพฤกษ์ 2568</p>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
+                        <h3 class="font-bold text-blue-900 mb-2">โครงการที่เลือกสอบ:</h3>
+                        <p class="text-blue-800 text-sm">อันดับ 1: <span id="dash_c1" class="font-bold"></span></p>
+                        <p class="text-blue-800 text-sm">อันดับ 2: <span id="dash_c2" class="font-bold"></span></p>
+                        <p class="text-blue-800 text-sm">อันดับ 3: <span id="dash_c3" class="font-bold"></span></p>
                     </div>
 
                     <table class="w-full text-left mb-8">
@@ -181,12 +195,20 @@
             <h1 class="text-2xl font-bold">ใบสมัครสอบแข่งขันทักษะวิชาการ เพชรราชพฤกษ์ 2568</h1>
             <h2 class="text-lg">โรงเรียนบางสะพานวิทยา</h2>
         </div>
-        <table class="w-full text-lg leading-loose mb-12">
+        <table class="w-full text-lg leading-loose mb-6">
             <tr><td class="w-1/3 font-bold">รหัสบัตรประชาชน:</td><td class="border-b border-dotted border-gray-500" id="p_app_id"></td></tr>
             <tr><td class="font-bold">ชื่อ-นามสกุล:</td><td class="border-b border-dotted border-gray-500" id="p_app_name"></td></tr>
             <tr><td class="font-bold">ระดับชั้นปัจจุบัน:</td><td class="border-b border-dotted border-gray-500 font-bold" id="p_app_level"></td></tr>
             <tr><td class="font-bold">โรงเรียนปัจจุบัน:</td><td class="border-b border-dotted border-gray-500" id="p_app_school"></td></tr>
         </table>
+        
+        <div class="border border-black p-4 mb-8">
+            <h3 class="font-bold mb-2">อันดับโครงการที่ประสงค์จะศึกษาต่อ:</h3>
+            <p>1. <span id="p_app_c1"></span></p>
+            <p>2. <span id="p_app_c2"></span></p>
+            <p>3. <span id="p_app_c3"></span></p>
+        </div>
+
         <div class="text-center mt-12">
             <p>ลงชื่อ...........................................................................ผู้สมัคร</p>
             <p class="mt-2 text-sm">( พิมพ์ชื่อตัวบรรจง )</p>
@@ -204,7 +226,7 @@
             <table class="w-full text-lg leading-loose pr-24">
                 <tr><td class="w-2/5 font-bold">ชื่อ-นามสกุล:</td><td class="border-b border-dotted border-gray-500" id="p_card_name"></td></tr>
                 <tr><td class="font-bold">ระดับชั้น:</td><td class="border-b border-dotted border-gray-500 font-bold" id="p_card_level"></td></tr>
-                <tr><td class="font-bold">โรงเรียน:</td><td class="border-b border-dotted border-gray-500" id="p_card_school"></td></tr>
+                <tr><td class="font-bold">โครงการอันดับ 1:</td><td class="border-b border-dotted border-gray-500 font-bold" id="p_card_c1"></td></tr>
                 <tr><td class="font-bold">ห้องสอบ/เลขที่นั่ง:</td><td class="border-b border-dotted border-gray-500 text-gray-400 text-sm">กรรมการคุมสอบจะเป็นผู้กรอก</td></tr>
             </table>
         </div>
@@ -221,12 +243,33 @@
             document.getElementById('view-' + view).classList.remove('hidden');
         }
 
-        // แสดงคำแนะนำตามระดับชั้นที่เลือก
-        function showInfo(type) {
-            document.getElementById('info-box-p').classList.add('hidden');
-            document.getElementById('info-box-m').classList.add('hidden');
-            if(type === 'P') document.getElementById('info-box-p').classList.remove('hidden');
-            if(type === 'M') document.getElementById('info-box-m').classList.remove('hidden');
+        // รายชื่อโครงการ
+        const projectListP = ["-", "ห้องเรียนคุณภาพ (S&M ช้างเผือก)", "ห้องเรียน EIS", "ห้องเรียน GATE", "SPORT PROGRAM"];
+        const projectListM = ["-", "วิทยาศาสตร์-คณิตศาสตร์", "ศิลป์-คำนวณ", "ศิลป์-ภาษา"];
+
+        // อัปเดตตัวเลือกโครงการตามระดับชั้นที่เลือก
+        function updateProjectOptions(type) {
+            document.getElementById('project-selection-box').classList.remove('hidden');
+            const selects = [document.getElementById('choice1'), document.getElementById('choice2'), document.getElementById('choice3')];
+            
+            let optionsHTML = '';
+            const list = (type === 'P') ? projectListP : projectListM;
+            list.forEach(item => { optionsHTML += `<option value="${item}">${item}</option>`; });
+
+            selects.forEach(select => { select.innerHTML = optionsHTML; });
+        }
+
+        // ตรวจสอบไม่ให้เลือกอันดับซ้ำกัน
+        function validateChoices() {
+            const c1 = document.getElementById('choice1').value;
+            const c2 = document.getElementById('choice2').value;
+            const c3 = document.getElementById('choice3').value;
+            
+            if (c1 !== "-" && (c1 === c2 || c1 === c3) || c2 !== "-" && (c2 === c3)) {
+                alert("⚠️ ท่านไม่สามารถเลือกโครงการในแต่ละอันดับซ้ำกันได้ กรุณาเลือกใหม่");
+                document.getElementById('choice2').value = "-";
+                document.getElementById('choice3').value = "-";
+            }
         }
 
         function triggerPrint(type) {
@@ -238,6 +281,13 @@
 
         async function handleRegister(e) {
             e.preventDefault();
+            
+            // เช็คว่าเลือกอันดับ 1 หรือยัง
+            if(document.getElementById('choice1').value === "-") {
+                alert("กรุณาเลือกโครงการอันดับที่ 1");
+                return;
+            }
+
             const btn = document.getElementById('btnReg');
             btn.innerHTML = "⏳ กำลังบันทึกข้อมูล..."; btn.disabled = true;
 
@@ -246,6 +296,9 @@
                 national_id: document.getElementById('reg_id').value,
                 password: document.getElementById('reg_pass').value,
                 grade_level: document.querySelector('input[name="grade"]:checked').value,
+                choice1: document.getElementById('choice1').value,
+                choice2: document.getElementById('choice2').value,
+                choice3: document.getElementById('choice3').value,
                 prefix: document.querySelector('input[name="prefix"]:checked').value,
                 firstname: document.getElementById('reg_first').value,
                 lastname: document.getElementById('reg_last').value,
@@ -279,16 +332,24 @@
                     // ลงข้อมูล Dashboard
                     document.getElementById('dash_name').innerText = data.data.fullname;
                     document.getElementById('dash_level').innerText = data.data.level;
+                    document.getElementById('dash_c1').innerText = data.data.choice1;
+                    document.getElementById('dash_c2').innerText = data.data.choice2;
+                    document.getElementById('dash_c3').innerText = data.data.choice3;
                     document.getElementById('dash_status').innerText = data.data.status;
                     
-                    // ลงข้อมูลเตรียมปริ้น
+                    // ลงข้อมูลเตรียมปริ้น Application
                     document.getElementById('p_app_id').innerText = data.data.national_id;
                     document.getElementById('p_app_name').innerText = data.data.fullname;
                     document.getElementById('p_app_level').innerText = data.data.level;
                     document.getElementById('p_app_school').innerText = data.data.school;
+                    document.getElementById('p_app_c1').innerText = data.data.choice1;
+                    document.getElementById('p_app_c2').innerText = data.data.choice2;
+                    document.getElementById('p_app_c3').innerText = data.data.choice3;
                     
+                    // ลงข้อมูลเตรียมปริ้น บัตรสอบ
                     document.getElementById('p_card_name').innerText = data.data.fullname;
                     document.getElementById('p_card_level').innerText = data.data.level;
+                    document.getElementById('p_card_c1').innerText = data.data.choice1;
                     document.getElementById('p_card_school').innerText = data.data.school;
 
                     toggleView('dashboard');
